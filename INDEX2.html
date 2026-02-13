@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Para mi Spidey-Valentine</title>
+    <style>
+        /* FONDO Y LETRAS - SIN IMAGEN EXTERNA */
+        body {
+            background-color: #0e1117;
+            background-image:
+                    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(198, 190, 190, 0.77) 0%, transparent 50%);
+            color: white;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* DISEÑO DE LOS BOTONES - IGUAL */
+        .btn {
+            background-color: #E23636;
+            color: white;
+            border: 6px solid white;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.1s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* CONTENEDOR BOTONES */
+        .botones-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #btnNo {
+            position: absolute;
+        }
+
+        /* FASES */
+        #fase1 { }
+        #fase2, #fase3 { display: none; }
+
+        /* CORAZÓN EN LUGAR DE BARRA */
+        #corazonContainer {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+        }
+
+        .love {
+            width: 70px;
+            height: 70px;
+            transform: rotate(45deg) scale(0);
+            background: #E23636;
+            position: relative;
+            margin: 10px auto;
+            transition: transform 0.4s ease;
+        }
+
+        .love:before,
+        .love:after {
+            content: "";
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: #E23636;
+            border-radius: 50% 50% 50% 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .love:before {
+            transform: translate(-50%, -110%);
+        }
+
+        .love:after {
+            transform: translate(-110%, -50%);
+        }
+
+        .love.cargado {
+            animation: beating 1.5s ease infinite;
+            transform: rotate(45deg) scale(1);
+        }
+
+        @keyframes beating {
+            0%, 100% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.5); }
+        }
+
+        /* FASE 3 */
+        #fase3 img {
+            width: 300px;
+            border-radius: 15px;
+            border: 3px solid white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="fase1">
+    <h1>Quería preguntarte una cosita...👀</h1>
+    <h2> 😍¿Quieres ser mi cita de San Valentín?♥️</h2>
+
+    <div class="botones-container">
+        <button class="btn" id="btnSi" onclick="irFase2()">¡SÍ, POR SUPUESTO!🤩</button>
+        <button class="btn" id="btnNo" onmouseover="moverBoton()">No😒</button>
+    </div>
+</div>
+
+<div id="fase2">
+    <h1>¡Respuesta Correcta! 😎 </h1>
+    <p> Ahora haz click para cargar el corazón</p>
+    <p> y asi poder ver tu sorpresa </p>
+
+    <div id="corazonContainer">
+        <div class="love" id="bateriaNivel"></div>
+    </div>
+
+    <button class="btn" onclick="cargarBateria()"> ⚡️CARGAR️⚡️</button>
+</div>
+
+<div id="fase3">
+    <h1>✨¡GENIAL, MÁQUINA, FIERA, MASTODONTE!✨</h1>
+    <img src="Kiss Sticker - Kiss - Descubre y comparte GIF.gif" width="300" style="border-radius: 15px;">
+
+    <h2>¡Tu sorpresa es...!</h2>
+    <h3>Una cena especial y maratón de películas.</h3>
+    <p>Te amo muchísimo. Besos Ale❤️🧸</p>
+</div>
+
+<script>
+    // TU CÓDIGO ORIGINAL - MEJORADO
+    function moverBoton() {
+        const btnNo = document.getElementById('btnNo');
+        const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+        const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+        btnNo.style.position = 'fixed';
+        btnNo.style.left = x + 'px';
+        btnNo.style.top = y + 'px';
+    }
+
+    function irFase2() {
+        document.getElementById('fase1').style.display = 'none';
+        document.getElementById('fase2').style.display = 'block';
+    }
+
+    let carga = 0;
+    function cargarBateria() {
+        carga += 25;
+        const corazon = document.getElementById('bateriaNivel');
+        const escala = Math.min(carga / 100, 1);
+
+        corazon.style.transform = `rotate(45deg) scale(${escala})`;
+
+        if (carga >= 100) {
+            corazon.classList.add('cargado');
+            setTimeout(() => {
+                document.getElementById('fase2').style.display = 'none';
+                document.getElementById('fase3').style.display = 'block';
+            }, 800);
+        }
+    }
+</script>
+
+</body>
+</html>
